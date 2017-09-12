@@ -7,14 +7,14 @@ local tid
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
-	tid_addr = 0xd1a1
+    tid_addr = 0xd1a1
 elseif version == 0xd218 or version == 0xe2f2 then
-	print("USA/Europe Crystal detected")
-	tid_addr = 0xd47b
+    print("USA/Europe Crystal detected")
+    tid_addr = 0xd47b
 else
-	print(string.format("Unknown version, code: %4x", version))
-	print("Script stopped")
-	return
+    print(string.format("Unknown version, code: %4x", version))
+    print("Script stopped")
+    return
 end
 
 function reverseword(w)
@@ -25,9 +25,9 @@ local state = savestate.create()
 while true do
     savestate.save(state)
     for i = 1, 16 do
-    	joypad.set(1, {A=true})
-		emu.frameadvance()
-	end
+        joypad.set(1, {A=true})
+        emu.frameadvance()
+    end
     tid = reverseword(memory.readword(tid_addr))
     print(tid)
     if tid == desired_tid then

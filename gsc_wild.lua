@@ -10,17 +10,17 @@ local enemy_addr
 local delay
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
-	print("USA Gold/Silver detected")
-	enemy_addr = 0xd0f5
-	delay = 200
+    print("USA Gold/Silver detected")
+    enemy_addr = 0xd0f5
+    delay = 200
 elseif version == 0xd218 or version == 0xe2f2 then
-	print("USA/Europe Crystal detected")
-	enemy_addr = 0xd20c
-	delay = 475
+    print("USA/Europe Crystal detected")
+    enemy_addr = 0xd20c
+    delay = 500
 else
-	print(string.format("Unknown version, code: %4x", version))
-	print("Script stopped")
-	return
+    print(string.format("Unknown version, code: %4x", version))
+    print("Script stopped")
+    return
 end
  
 function shiny(atkdef,spespc)
@@ -55,31 +55,31 @@ while true do
         battle = memory.readbyte(battle_flag)
         i = (i+1)%32
     end
-	species = memory.readbyte(enemy_addr - 8)
+    species = memory.readbyte(enemy_addr - 8)
     print(string.format("Species: %d", species))
 
     if desired_species ~= species then
-    	savestate.load(state)
+        savestate.load(state)
     else
-		for i = 1, delay do
-    		joypad.set(1, {A=true})
-			emu.frameadvance()
-		end
+        for i = 1, delay do
+        joypad.set(1, {A=true})
+        emu.frameadvance()
+        end
         
-    	atkdef = memory.readbyte(enemy_addr)
-    	spespc = memory.readbyte(enemy_addr + 1)
-    	atk = math.floor(atkdef/16)
-    	def = atkdef%16
-    	spe = math.floor(spespc/16)
-    	spc = spespc%16
-    	print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", atk, def, spe, spc))
+        atkdef = memory.readbyte(enemy_addr)
+        spespc = memory.readbyte(enemy_addr + 1)
+        atk = math.floor(atkdef/16)
+        def = atkdef%16
+        spe = math.floor(spespc/16)
+        spc = spespc%16
+        print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", atk, def, spe, spc))
 
-    	if shiny(atkdef, spespc) then
-        	print("Shiny found!!")
-        	break
-    	else
-        	savestate.load(state)
-    	end
-	end
+        if shiny(atkdef, spespc) then
+            print("Shiny found!!")
+            break
+        else
+            savestate.load(state)
+        end
+    end
     emu.frameadvance()
 end

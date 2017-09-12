@@ -9,16 +9,16 @@ local spespc
 local species
 
 local enemy_addr
-local delay
+local delay1
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
     enemy_addr = 0xd0f5
-    delay = 200
+    delay1 = 200
 elseif version == 0xd218 or version == 0xe2f2 then
     print("USA/Europe Crystal detected")
     enemy_addr = 0xd20c
-    delay = 475
+    delay1 = 475
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
@@ -40,7 +40,6 @@ end
 
 function delay(time)
     for i = 1, time do
-        joypad.set(1, {A=true})
         emu.frameadvance()
     end
 end
@@ -56,16 +55,16 @@ while true do
         print("Nothing bited")
         savestate.load(state)
     else
-        delay(280)
+        delay(300)
         joypad.set(1, {A=true})
-        delay(31)
+        delay(50)
         species = memory.readbyte(enemy_addr - 8)
         print(string.format("Species: %d", species))
 
         if desired_species ~= species then
             savestate.load(state)
         else
-            delay(delay)
+            delay(delay1)
             atkdef = memory.readbyte(enemy_addr)
             spespc = memory.readbyte(enemy_addr + 1)
             atk = math.floor(atkdef/16)
@@ -75,11 +74,11 @@ while true do
             print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", atk, def, spe, spc))
             if shiny(atkdef, spespc) then
                 print("Shiny found!!")
-                break
+                return
             else
                 savestate.load(state)
             end
         end
-	end
+    end
     emu.frameadvance()
 end

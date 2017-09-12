@@ -8,15 +8,15 @@ local spespc
 local base_address
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
-	print("USA Gold/Silver detected")
-	base_address = 0xda22
+    print("USA Gold/Silver detected")
+    base_address = 0xda22
 elseif version == 0xd218 or version == 0xe2f2 then
-	print("USA/Europe Crystal detected")
-	base_address = 0xdcd7
+    print("USA/Europe Crystal detected")
+    base_address = 0xdcd7
 else
-	print(string.format("Unknown version, code: %4x", version))
-	print("Script stopped")
-	return
+    print(string.format("Unknown version, code: %4x", version))
+    print("Script stopped")
+    return
 end
 
 local size = memory.readbyte(base_address)
@@ -38,9 +38,9 @@ state = savestate.create()
 while true do
     savestate.save(state)
     for i = 1, delay do
-    	joypad.set(1, {A=true})
-		emu.frameadvance()
-	end
+        joypad.set(1, {A=true})
+        emu.frameadvance()
+    end
     atkdef = memory.readbyte(dv_addr)
     spespc = memory.readbyte(dv_addr + 1)
     print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
