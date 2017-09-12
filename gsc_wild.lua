@@ -1,5 +1,6 @@
 --Edit parameters in this section
 local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
+local delay = -1 -- delay between A pressing and data generation/ -1 for default
 --End of parameters
 
 local atkdef
@@ -12,23 +13,27 @@ local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
     enemy_addr = 0xd0f5
-    delay = 200
 elseif version == 0x6084 or version == 0x341d then
     print("Japanese Gold/Silver detected")
     enemy_addr = 0xd0e7
-    delay = 200
 elseif version == 0xd218 or version == 0xe2f2 then
     print("USA/Europe Crystal detected")
     enemy_addr = 0xd20c
-    delay = 500
 elseif version == 0x409a then
     print("Japanese Crystal detected")
     enemy_addr = 0xd23d
-    delay = 500
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
     return
+end
+
+if delay < 0 then
+    if enemy_addr == 0xd0f5 or enemy_addr == 0xd0e7 then
+        delay = 200  -- GS Version
+    else
+        delay = 500  -- C Version
+    end
 end
  
 function shiny(atkdef,spespc)
@@ -70,17 +75,13 @@ while true do
         savestate.load(state)
     else
         for i = 1, delay do
-        joypad.set(1, {A=true})
-        emu.frameadvance()
+            joypad.set(1, {A=true})
+            emu.frameadvance()
         end
         
         atkdef = memory.readbyte(enemy_addr)
         spespc = memory.readbyte(enemy_addr + 1)
-        atk = math.floor(atkdef/16)
-        def = atkdef%16
-        spe = math.floor(spespc/16)
-        spc = spespc%16
-        print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", atk, def, spe, spc))
+        print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
 
         if shiny(atkdef, spespc) then
             print("Shiny found!!")

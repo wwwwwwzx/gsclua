@@ -1,5 +1,6 @@
 --Edit parameters in this section
 local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
+local delay1 = -1 -- delay between A pressing and data generation / -1 for default
 --End of parameters
 
 local fish_addr = 0xD0D8
@@ -14,23 +15,27 @@ local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
     enemy_addr = 0xd0f5
-    delay1 = 200
 elseif version == 0x6084 or version == 0x341d then
     print("Japanese Gold/Silver detected")
     enemy_addr = 0xd0e7
-    delay1 = 200
 elseif version == 0xd218 or version == 0xe2f2 then
     print("USA/Europe Crystal detected")
     enemy_addr = 0xd20c
-    delay1 = 500
 elseif version == 0x409a then
     print("Japanese Crystal detected")
     enemy_addr = 0xd23d
-    delay1 = 500
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
     return
+end
+
+if delay1 < 0 then
+    if enemy_addr == 0xd0f5 or enemy_addr == 0xd0e7 then
+        delay1 = 200  -- GS Version
+    else
+        delay1 = 500  -- C Version
+    end
 end
 
  
@@ -51,7 +56,6 @@ function delay(time)
         emu.frameadvance()
     end
 end
-
 
 local state = savestate.create()
 while true do
@@ -75,11 +79,8 @@ while true do
             delay(delay1)
             atkdef = memory.readbyte(enemy_addr)
             spespc = memory.readbyte(enemy_addr + 1)
-            atk = math.floor(atkdef/16)
-            def = atkdef%16
-            spe = math.floor(spespc/16)
-            spc = spespc%16
-            print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", atk, def, spe, spc))
+            print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
+            
             if shiny(atkdef, spespc) then
                 print("Shiny found!!")
                 return
