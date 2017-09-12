@@ -65,4 +65,5 @@ while true do
         savestate.load(state)
     end
     emu.frameadvance()
+    emu.frameadvance()
 end

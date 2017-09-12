@@ -8,7 +8,6 @@ local spespc
 local species
 
 local enemy_addr
-local delay
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
@@ -85,10 +84,12 @@ while true do
 
         if shiny(atkdef, spespc) then
             print("Shiny found!!")
+            savestate.save(state)
             break
         else
             savestate.load(state)
         end
     end
+    emu.frameadvance()
     emu.frameadvance()
 end
