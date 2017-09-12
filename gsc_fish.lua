@@ -7,8 +7,24 @@ local fished
 local atkdef
 local spespc
 local species
-local state = savestate.create()
-savestate.save(state)
+
+local enemy_addr
+local delay
+local version = memory.readword(0x14e)
+if version == 0xae0d or version == 0x2d68 then
+    print("USA Gold/Silver detected")
+    enemy_addr = 0xd0f5
+    delay = 200
+elseif version == 0xd218 or version == 0xe2f2 then
+    print("USA/Europe Crystal detected")
+    enemy_addr = 0xd20c
+    delay = 475
+else
+    print(string.format("Unknown version, code: %4x", version))
+    print("Script stopped")
+    return
+end
+
  
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
@@ -23,15 +39,15 @@ function shiny(atkdef,spespc)
 end
 
 function delay(time)
-    i = time
-    while i > 0 do
+    for i = 1, time do
+        joypad.set(1, {A=true})
         emu.frameadvance()
-        i = i-1
     end
 end
- 
+
+
+local state = savestate.create()
 while true do
-    emu.frameadvance()
     savestate.save(state)
     joypad.set(1, {A=true})
     emu.frameadvance()
@@ -43,15 +59,15 @@ while true do
         delay(280)
         joypad.set(1, {A=true})
         delay(31)
-        species = memory.readbyte(0xd0ed)
+        species = memory.readbyte(enemy_addr - 8)
         print(string.format("Species: %d", species))
 
         if desired_species ~= species then
             savestate.load(state)
         else
-            delay(200)
-            atkdef = memory.readbyte(0xd0f5)
-            spespc = memory.readbyte(0xd0f6)
+            delay(delay)
+            atkdef = memory.readbyte(enemy_addr)
+            spespc = memory.readbyte(enemy_addr + 1)
             atk = math.floor(atkdef/16)
             def = atkdef%16
             spe = math.floor(spespc/16)
@@ -65,4 +81,5 @@ while true do
             end
         end
 	end
+    emu.frameadvance()
 end
