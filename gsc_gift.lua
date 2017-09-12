@@ -10,9 +10,15 @@ local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
     base_address = 0xda22
+elseif version == 0x6084 or version == 0x341d then
+    print("Japanese Gold/Silver detected")
+    base_address = 0xd9e8
 elseif version == 0xd218 or version == 0xe2f2 then
     print("USA/Europe Crystal detected")
     base_address = 0xdcd7
+elseif version == 0x409a then
+    print("Japanese Crystal detected")
+    base_address = 0xdc9d
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")

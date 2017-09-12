@@ -1,5 +1,5 @@
 --Edit parameters in this section
-local desired_species = 16 -- the desired pokemon dex number
+local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
 --End of parameters
 
 local atkdef
@@ -13,9 +13,17 @@ if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")
     enemy_addr = 0xd0f5
     delay = 200
+elseif version == 0x6084 or version == 0x341d then
+    print("Japanese Gold/Silver detected")
+    enemy_addr = 0xd0e7
+    delay = 200
 elseif version == 0xd218 or version == 0xe2f2 then
     print("USA/Europe Crystal detected")
     enemy_addr = 0xd20c
+    delay = 500
+elseif version == 0x409a then
+    print("Japanese Crystal detected")
+    enemy_addr = 0xd23d
     delay = 500
 else
     print(string.format("Unknown version, code: %4x", version))
@@ -58,7 +66,7 @@ while true do
     species = memory.readbyte(enemy_addr - 8)
     print(string.format("Species: %d", species))
 
-    if desired_species ~= species then
+    if desired_species > 0 and desired_species ~= species then
         savestate.load(state)
     else
         for i = 1, delay do
