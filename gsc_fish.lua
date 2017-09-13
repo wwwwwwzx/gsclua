@@ -1,6 +1,5 @@
 --Edit parameters in this section
 local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
-local delay1 = -1 -- delay between A pressing and data generation / -1 for default
 --End of parameters
 
 local fish_addr = 0xD0D8
@@ -28,15 +27,6 @@ else
     print("Script stopped")
     return
 end
-
-if delay1 < 0 then
-    if enemy_addr == 0xd0f5 or enemy_addr == 0xd0e7 then
-        delay1 = 200  -- GS Version
-    else
-        delay1 = 500  -- C Version
-    end
-end
-
  
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
@@ -75,11 +65,13 @@ while true do
         if desired_species > 0 and desired_species ~= species then
             savestate.load(state)
         else
-            delay(delay1)
+            while memory.readbyte(enemy_addr  + 0x21) ~= 0x01 do
+                emu.frameadvance()
+            end
             atkdef = memory.readbyte(enemy_addr)
             spespc = memory.readbyte(enemy_addr + 1)
             print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
-            
+
             if shiny(atkdef, spespc) then
                 print("Shiny found!!")
                 return

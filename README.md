@@ -8,7 +8,6 @@ Tested on ENG/JPN/FRE Version
 - Cursor over `NEW GAME`, run the script
 
 ## Stationary and Gift
-- Edit the script for suitable delay. For example, starters can use a small delay less than 20. But for togepi egg, the delay should around 25.
 - Pause timing depends
 
 ## Wild
@@ -22,4 +21,6 @@ Tested on ENG/JPN/FRE Version
 - Edit the script for desired species in dex number, -1 for all possible species
 - Cursor over `USE` before using rod, run the script
 
+## Catching
+- Cursor over `USE` before throwing Poke Ball, run the script
 

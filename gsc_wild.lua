@@ -1,6 +1,5 @@
 --Edit parameters in this section
 local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
-local delay = -1 -- delay between A pressing and data generation/ -1 for default
 --End of parameters
 
 local atkdef
@@ -27,14 +26,6 @@ else
     return
 end
 
-if delay < 0 then
-    if enemy_addr == 0xd0f5 or enemy_addr == 0xd0e7 then
-        delay = 200  -- GS Version
-    else
-        delay = 500  -- C Version
-    end
-end
- 
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
@@ -73,9 +64,8 @@ while true do
     if desired_species > 0 and desired_species ~= species then
         savestate.load(state)
     else
-        for i = 1, delay do
-            joypad.set(1, {A=true})
-            emu.frameadvance()
+        while memory.readbyte(enemy_addr  + 0x21) ~= 0x01 do
+		   emu.frameadvance()
         end
         
         atkdef = memory.readbyte(enemy_addr)
@@ -90,6 +80,5 @@ while true do
             savestate.load(state)
         end
     end
-    emu.frameadvance()
     emu.frameadvance()
 end
