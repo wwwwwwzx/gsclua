@@ -2,8 +2,6 @@
 local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
 --End of parameters
 
-local fish_addr = 0xD0D8
-local fished
 local atkdef
 local spespc
 local species
@@ -27,6 +25,11 @@ else
     print("Script stopped")
     return
 end
+
+local fish_flag_addr = enemy_addr - 0x1d
+local species_addr = enemy_addr - 0x8
+local dv_flag_addr = enemy_addr + 0x21
+local battle_flag_addr = enemy_addr + 0x22
  
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
@@ -40,32 +43,29 @@ function shiny(atkdef,spespc)
     end
 end
 
-function delay(time)
-    for i = 1, time do
-        emu.frameadvance()
-    end
-end
-
 local state = savestate.create()
 while true do
     savestate.save(state)
     joypad.set(1, {A=true})
     emu.frameadvance()
-    fished = memory.readbyte(fish_addr)
-    if fished ~= 0x01 then
+    if memory.readbyte(fish_flag_addr) ~= 0x01 then            --fished flag
         print("Nothing bited")
         savestate.load(state)
     else
-        delay(300)
+        for i = 1, 300 do
+            emu.frameadvance()
+        end
         joypad.set(1, {A=true})
-        delay(50)
-        species = memory.readbyte(enemy_addr - 8)
+        while memory.readbyte(battle_flag_addr) == 0 do         --battle start flag
+            emu.frameadvance()
+        end
+        species = memory.readbyte(species_addr)
         print(string.format("Species: %d", species))
 
         if desired_species > 0 and desired_species ~= species then
             savestate.load(state)
         else
-            while memory.readbyte(enemy_addr  + 0x21) ~= 0x01 do
+            while memory.readbyte(dv_flag_addr) ~= 0x01 do --dvs generated flag
                 emu.frameadvance()
             end
             atkdef = memory.readbyte(enemy_addr)

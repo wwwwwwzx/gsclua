@@ -1,6 +1,5 @@
 local atkdef
 local spespc
-local species
 
 local enemy_addr
 local version = memory.readword(0x14e)
@@ -22,6 +21,8 @@ else
     return
 end
 
+local dv_flag_addr = enemy_addr + 0x21
+
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
@@ -37,7 +38,7 @@ end
 local state = savestate.create()
 while true do
     savestate.save(state)
-    while memory.readbyte(enemy_addr  + 0x21) ~= 0x01 do
+    while memory.readbyte(dv_flag_addr) ~= 0x01 do
         joypad.set(1, {A=true})
         emu.frameadvance()
     end
