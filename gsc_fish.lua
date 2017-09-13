@@ -10,7 +10,6 @@ local spespc
 local species
 
 local enemy_addr
-local delay1
 local version = memory.readword(0x14e)
 if version == 0xae0d or version == 0x2d68 then
     print("USA Gold/Silver detected")

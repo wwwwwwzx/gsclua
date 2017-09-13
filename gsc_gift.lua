@@ -1,7 +1,3 @@
---Edit parameters in this section
-local delay = 25 -- delay between A pressing and data generation
---End of parameters
-
 local atkdef
 local spespc
 
@@ -25,8 +21,8 @@ else
     return
 end
 
-local size = memory.readbyte(base_address)
-local dv_addr = (base_address + 0x1d) + size * 0x30;
+local partysize = memory.readbyte(base_address)
+local dv_addr = (base_address + 0x1d) + partysize * 0x30;
 
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
@@ -43,7 +39,7 @@ end
 state = savestate.create()
 while true do
     savestate.save(state)
-    for i = 1, delay do
+    while memory.readbyte(base_address) == partysize do
         joypad.set(1, {A=true})
         emu.frameadvance()
     end
