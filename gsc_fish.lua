@@ -35,12 +35,9 @@ function shiny(atkdef,spespc)
     if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
             return true
-        else
-            return false
         end
-    else
-        return false
     end
+    return false
 end
 
 local state = savestate.create()
@@ -48,7 +45,7 @@ while true do
     savestate.save(state)
     joypad.set(1, {A=true})
     emu.frameadvance()
-    if memory.readbyte(fish_flag_addr) ~= 0x01 then            --fished flag
+    if memory.readbyte(fish_flag_addr) ~= 0x01 then             --fished flag
         print("Nothing bited")
         savestate.load(state)
     else
@@ -65,7 +62,7 @@ while true do
         if desired_species > 0 and desired_species ~= species then
             savestate.load(state)
         else
-            while memory.readbyte(dv_flag_addr) ~= 0x01 do --dvs generated flag
+            while memory.readbyte(dv_flag_addr) ~= 0x01 do      --dvs generated flag
                 emu.frameadvance()
             end
             atkdef = memory.readbyte(enemy_addr)

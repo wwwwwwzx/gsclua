@@ -28,12 +28,9 @@ function shiny(atkdef,spespc)
     if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
             return true
-        else
-            return false
         end
-    else
-        return false
     end
+    return false
 end
  
 state = savestate.create()
@@ -49,6 +46,7 @@ while true do
     if shiny(atkdef,spespc) then
         print("Shiny!!! Script stopped.")
         savestate.save(state)
+        vba.pause()
         break
     else
         print("discard!")

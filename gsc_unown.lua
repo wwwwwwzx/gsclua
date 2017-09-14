@@ -1,10 +1,9 @@
 --Edit parameters in this section
-local desired_species = -1 -- the desired pokemon dex number / -1 for all species/encounter slots
+local desired_letter = 'A'
 --End of parameters
 
 local atkdef
 local spespc
-local species
 
 local enemy_addr
 local version = memory.readword(0x14e)
@@ -30,15 +29,15 @@ local species_addr = enemy_addr - 0x8
 local dv_flag_addr = enemy_addr + 0x21
 local battle_flag_addr = enemy_addr + 0x22
 
-function shiny(atkdef,spespc)
-    if spespc == 0xAA then
-        if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
-            return true
-        end
-    end
-    return false
+function getUnownForm(atkdef,spespc)
+    spcbits = math.floor(spespc/2) % 4 
+    spebits = math.floor(spespc/32) % 4
+    defbits = math.floor(atkdef/2) % 4
+    atkbits = math.floor(atkdef/32) % 4
+    formid = math.floor((atkbits * 64 + defbits * 16 + spebits * 4 + spcbits) / 10)
+    return string.char(formid + 65)
 end
- 
+
 local state = savestate.create()
 while true do
     savestate.save(state)
@@ -54,24 +53,29 @@ while true do
         emu.frameadvance()
         i = (i+1)%32
     end
-    species = memory.readbyte(species_addr)
-    print(string.format("Species: %d", species))
 
-    if desired_species > 0 and desired_species ~= species then
-        savestate.load(state)
+    if memory.readbyte(species_addr) ~= 201 then
+        print("Inproper location for Unown")
+        print("Script stopped")
+        return
     else
         while memory.readbyte(dv_flag_addr) ~= 0x01 do
             emu.frameadvance()
         end
-        
+
+        -- DVs Reroll
+        emu.frameadvance()
+
         atkdef = memory.readbyte(enemy_addr)
         spespc = memory.readbyte(enemy_addr + 1)
         print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
 
-        if shiny(atkdef, spespc) then
-            print("Shiny found!!")
+        Form = getUnownForm(atkdef,spespc)
+        print(string.format("Form: %s", Form))
+
+        if Form == desired_letter then
+            print("Desired unown found!!")
             savestate.save(state)
-            vba.pause()
             break
         else
             savestate.load(state)
