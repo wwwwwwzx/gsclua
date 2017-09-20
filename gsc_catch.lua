@@ -1,12 +1,15 @@
 local catch_flag
 local delay = 1000
-local version = memory.readword(0x14e)
-if version == 0xae0d or version == 0x2d68 or version == 0x6084 or version == 0x341d  then
-    print("Gold/Silver detected")
-    catch_flag = 0xc00a
-elseif version == 0xd218 or version == 0xe2f2 or version == 0x409a then
-    print("Crystal detected")
+local version = memory.readbyte(0x141)
+if version == 0x54 then
+	print("Crystal detected")
     catch_flag = 0xc10a
+elseif version == 0x55 then
+	print("Gold detected")
+    catch_flag = 0xc00a
+elseif version == 0x58 then
+	print("Silver detected")
+	catch_flag = 0xc00a
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
