@@ -1,5 +1,6 @@
-local raikou = 243; local entei = 244; local suicune = 245
+local pause = 1 -- Set to 0 to disable emulator pause at shiny encounter
 --End of parameters
+local raikou = 243; local entei = 244; local suicune = 245
 local atkdef
 local spespc
 local species
@@ -35,7 +36,8 @@ local dv_flag_addr = enemy_addr + 0x21
 local battle_flag_addr = enemy_addr + 0x22
 
 function shiny(atkdef,spespc)
-    if spespc == 0xAA then
+    return true
+	if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
             return true
 		end
@@ -139,10 +141,13 @@ while true do
 			if shiny(atkdef, spespc) then
 				if raikou == species then
 					print("Shiny Raikou!")
+					speciesname = "Raikou"
 				elseif entei == species then
 					print("Shiny Entei!")
+					speciesname = "Entei"
 				elseif suicune == species then
 					print("Shiny Suicune!")
+					speciesname = "Suicune"
 				end	
 				print(string.format("%s Atk: %d Def: %d Spe: %d Spc: %d", speciesname, math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
 				savestate.save(state)
@@ -155,7 +160,6 @@ while true do
 					speciesname = "Entei"
 				elseif suicune == species then
 					speciesname = "Suicune"
-
 				end
 	            print(string.format("%s Atk: %d Def: %d Spe: %d Spc: %d", speciesname, math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
 				savestate.load(state)
@@ -180,7 +184,7 @@ while i < delay do
         i = i + 1
 		emu.frameadvance()
 end
-press({A = true}, 20); press({A = false}, 20)
+press({A = true}, 200); press({A = false}, 200)
 print("Starting fight (A)")
 if pause == 1 then
 	print("Pausing emulator")
@@ -193,8 +197,8 @@ press({A = true}, 16); press({A = false}, 16)
 print("Select Ball (right) (A)")
 press({right = true}, 16); press({right = false}, 16)
 press({A = true}, 16); press({A = false}, 16)
-local state = savestate.create()
 
+local state = savestate.create()
 -- Start chucking balls
 print("Attempting capture...")
 local state = savestate.create()
