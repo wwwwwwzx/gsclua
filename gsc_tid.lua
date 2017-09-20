@@ -4,19 +4,41 @@ local desired_tid = 0 --TID you desired
 
 local tid_addr
 local tid
-local version = memory.readword(0x14e)
-if version == 0xae0d or version == 0x2d68 then
-    print("USA Gold/Silver detected")
-    tid_addr = 0xd1a1
-elseif version == 0x6084 or version == 0x341d then
-    print("Japanese Gold/Silver detected")
-    tid_addr = 0xd1b3
-elseif version == 0xd218 or version == 0xe2f2 then
-    print("USA/Europe Crystal detected")
-    tid_addr = 0xd47b
-elseif version == 0x409a then
-    print("Japanese Crystal detected")
-    tid_addr = 0xd48c
+local version = memory.readbyte(0x141)
+local region = memory.readbyte(0x142)
+if version == 0x54 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Crystal detected")
+		tid_addr = 0xd47b
+	elseif region == 0x45 then
+		print("USA Crystal detected")
+		tid_addr = 0xd47b
+	elseif region == 0x4A then
+		print("JAP Crystal detected")
+		tid_addr = 0xd48c
+	end
+elseif version == 0x55 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Gold detected")
+		tid_addr = 0xd1a1
+	elseif region == 0x45 then
+		print("USA Gold detected")
+		tid_addr = 0xd1a1
+	elseif region == 0x4A then
+		print("JAP Gold detected")
+		tid_addr = 0xd1b3
+	end
+elseif version == 0x58 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Silver detected")
+		tid_addr = 0xd1a1
+	elseif region == 0x45 then
+		print("USA Silver detected")
+		tid_addr = 0xd1a1
+	elseif region == 0x4A then
+		print("JAP Silver detected")
+		tid_addr = 0xd1b3
+	end
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
