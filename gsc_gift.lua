@@ -62,6 +62,7 @@ while true do
         joypad.set(1, {A=true})
         emu.frameadvance()
     end
+    emu.frameadvance()
     atkdef = memory.readbyte(dv_addr)
     spespc = memory.readbyte(dv_addr + 1)
     print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
@@ -71,7 +72,7 @@ while true do
         vba.pause()
         break
     else
-        print("discard!")
+        print("Discard!")
         savestate.load(state)
     end
     emu.frameadvance()
