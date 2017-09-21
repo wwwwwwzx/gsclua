@@ -8,23 +8,50 @@ local discardcount = 0
 local delay = 1000
 local catch_flag
 local enemy_addr
-local version = memory.readword(0x14e)
-if version == 0xae0d or version == 0x2d68 then
-    print("USA Gold/Silver")
-    enemy_addr = 0xd0f5
-	catch_flag = 0xc00a
-elseif version == 0x6084 or version == 0x341d then
-    print("Japanese Gold/Silver")
-    enemy_addr = 0xd0e7
-	catch_flag = 0xc00a
-elseif version == 0xd218 or version == 0xe2f2 then
-    print("USA/Europe Crystal")
-    enemy_addr = 0xd20c
-	catch_flag = 0xc10a
-elseif version == 0x409a then
-    print("Japanese Crystal")
-    enemy_addr = 0xd23d
-	catch_flag = 0xc10a
+local version = memory.readbyte(0x141)
+local region = memory.readbyte(0x142)
+if version == 0x54 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Crystal detected")
+		enemy_addr = 0xd20c
+		catch_flag = 0xc10a
+	elseif region == 0x45 then
+		print("USA Crystal detected")
+		enemy_addr = 0xd20c
+		catch_flag = 0xc10a
+	elseif region == 0x4A then
+		print("JAP Crystal detected")
+		enemy_addr = 0xd23d
+		catch_flag = 0xc10a
+	end
+elseif version == 0x55 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Gold detected")
+		enemy_addr = 0xd0f5
+		catch_flag = 0xc00a
+	elseif region == 0x45 then
+		print("USA Gold detected")
+		enemy_addr = 0xd0f5
+		catch_flag = 0xc00a
+	elseif region == 0x4A then
+		print("JAP Gold detected")
+		enemy_addr = 0xd0e7
+		catch_flag = 0xc00a
+	end
+elseif version == 0x58 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Silver detected")
+		enemy_addr = 0xd0f5
+		catch_flag = 0xc00a
+	elseif region == 0x45 then
+		print("USA Silver detected")
+		enemy_addr = 0xd0f5
+		catch_flag = 0xc00a
+	elseif region == 0x4A then
+		print("JAP Silver detected")
+		enemy_addr = 0xd0e7
+		catch_flag = 0xc00a
+	end
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
