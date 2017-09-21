@@ -2,19 +2,41 @@ local atkdef
 local spespc
 
 local base_address
-local version = memory.readword(0x14e)
-if version == 0xae0d or version == 0x2d68 then
-    print("USA Gold/Silver detected")
-    base_address = 0xda22
-elseif version == 0x6084 or version == 0x341d then
-    print("Japanese Gold/Silver detected")
-    base_address = 0xd9e8
-elseif version == 0xd218 or version == 0xe2f2 then
-    print("USA/Europe Crystal detected")
-    base_address = 0xdcd7
-elseif version == 0x409a then
-    print("Japanese Crystal detected")
-    base_address = 0xdc9d
+local version = memory.readbyte(0x141)
+local region = memory.readbyte(0x142)
+if version == 0x54 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Crystal detected")
+		base_address = 0xdcd7
+	elseif region == 0x45 then
+		print("USA Crystal detected")
+		base_address = 0xdcd7
+	elseif region == 0x4A then
+		print("JAP Crystal detected")
+		base_address = 0xdc9d
+	end
+elseif version == 0x55 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Gold detected")
+		base_address = 0xda22
+	elseif region == 0x45 then
+		print("USA Gold detected")
+		base_address = 0xda22
+	elseif region == 0x4A then
+		print("JAP Gold detected")
+		base_address = 0xd9e8
+	end
+elseif version == 0x58 then
+	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+		print("EUR Silver detected")
+		base_address = 0xda22
+	elseif region == 0x45 then
+		print("USA Silver detected")
+		base_address = 0xda22
+	elseif region == 0x4A then
+		print("JAP Silver detected")
+		base_address = 0xd9e8
+	end
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
