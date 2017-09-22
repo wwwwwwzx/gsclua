@@ -10,38 +10,27 @@ local enemy_addr
 local version = memory.readbyte(0x141)
 local region = memory.readbyte(0x142)
 if version == 0x54 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Crystal detected")
-		enemy_addr = 0xd20c
-	elseif region == 0x45 then
-		print("USA Crystal detected")
-		enemy_addr = 0xd20c
-	elseif region == 0x4A then
-		print("JAP Crystal detected")
-		enemy_addr = 0xd23d
-	end
-elseif version == 0x55 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Gold detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x45 then
-		print("USA Gold detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x4A then
-		print("JAP Gold detected")
-		enemy_addr = 0xd0e7
-	end
-elseif version == 0x58 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Silver detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x45 then
-		print("USA Silver detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x4A then
-		print("JAP Silver detected")
-		enemy_addr = 0xd0e7
-	end
+    if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+        print("EUR Crystal detected")
+        enemy_addr = 0xd20c
+    elseif region == 0x45 then
+        print("USA Crystal detected")
+        enemy_addr = 0xd20c
+    elseif region == 0x4A then
+        print("JPN Crystal detected")
+        enemy_addr = 0xd23d
+    end
+elseif version == 0x55 or version == 0x58 then
+    if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
+        print("EUR Gold/Silver detected")
+        enemy_addr = 0xd0f5
+    elseif region == 0x45 then
+        print("USA Gold/Silver detected")
+        enemy_addr = 0xd0f5
+    elseif region == 0x4A then
+        print("JPN Gold/Silver detected")
+        enemy_addr = 0xd0e7
+    end
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")

@@ -15,26 +15,15 @@ if version == 0x54 then
 		print("JAP Crystal detected")
 		enemy_addr = 0xd23d
 	end
-elseif version == 0x55 then
+elseif version == 0x55 or version == 0x58 then
 	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Gold detected")
+		print("EUR Gold/Silver detected")
 		enemy_addr = 0xd0f5
 	elseif region == 0x45 then
-		print("USA Gold detected")
+		print("USA Gold/Silver detected")
 		enemy_addr = 0xd0f5
 	elseif region == 0x4A then
-		print("JAP Gold detected")
-		enemy_addr = 0xd0e7
-	end
-elseif version == 0x58 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Silver detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x45 then
-		print("USA Silver detected")
-		enemy_addr = 0xd0f5
-	elseif region == 0x4A then
-		print("JAP Silver detected")
+		print("JPN Gold/Silver detected")
 		enemy_addr = 0xd0e7
 	end
 else

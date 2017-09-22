@@ -12,29 +12,18 @@ if version == 0x54 then
 		print("USA Crystal detected")
 		base_address = 0xdcd7
 	elseif region == 0x4A then
-		print("JAP Crystal detected")
+		print("JPN Crystal detected")
 		base_address = 0xdc9d
 	end
-elseif version == 0x55 then
+elseif version == 0x55 or version == 0x58 then
 	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Gold detected")
+		print("EUR Gold/Silver detected")
 		base_address = 0xda22
 	elseif region == 0x45 then
-		print("USA Gold detected")
+		print("USA Gold/Silver detected")
 		base_address = 0xda22
 	elseif region == 0x4A then
-		print("JAP Gold detected")
-		base_address = 0xd9e8
-	end
-elseif version == 0x58 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Silver detected")
-		base_address = 0xda22
-	elseif region == 0x45 then
-		print("USA Silver detected")
-		base_address = 0xda22
-	elseif region == 0x4A then
-		print("JAP Silver detected")
+		print("JPN Gold/Silver detected")
 		base_address = 0xd9e8
 	end
 else

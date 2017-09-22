@@ -17,26 +17,15 @@ if version == 0x54 then
 		print("JAP Crystal detected")
 		tid_addr = 0xd48c
 	end
-elseif version == 0x55 then
+elseif version == 0x55 or version == 0x58 then
 	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Gold detected")
+		print("EUR Gold/Silver detected")
 		tid_addr = 0xd1a1
 	elseif region == 0x45 then
-		print("USA Gold detected")
+		print("USA Gold/Silver detected")
 		tid_addr = 0xd1a1
 	elseif region == 0x4A then
-		print("JAP Gold detected")
-		tid_addr = 0xd1b3
-	end
-elseif version == 0x58 then
-	if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
-		print("EUR Silver detected")
-		tid_addr = 0xd1a1
-	elseif region == 0x45 then
-		print("USA Silver detected")
-		tid_addr = 0xd1a1
-	elseif region == 0x4A then
-		print("JAP Silver detected")
+		print("JPN Gold/Silver detected")
 		tid_addr = 0xd1b3
 	end
 else
