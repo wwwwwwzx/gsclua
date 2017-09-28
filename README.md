@@ -1,7 +1,7 @@
 # gsclua
 Lua scripts for shiny hunting in GSC games based off zep715's [rbylua](https://github.com/zep715/rbylua)   
-Work only with vba rr 23.6.   
-Tested on ENG/JPN/FRE Version  
+Work only with vba rr 23.6.
+Supporting games of multiple regions.
 
 ## TID
 - Edit the script for desired TID
@@ -34,7 +34,11 @@ https://www.youtube.com/watch?v=jFTGqBfL7aE
 ## Catching
 - Cursor over `USE` before throwing Poke Ball, run the script
 
-### Credit
+# Viewer
+Location code for legendary beasts:
+![](https://i.imgur.com/66PI2ui.png)
+
+# Credit
 - zep715 for original code
 - Real96 for better region/version checks and address finding
 - RichardPaulAstley for supporting and address finding
