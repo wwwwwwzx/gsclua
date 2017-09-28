@@ -77,7 +77,6 @@ function ShowPKM(address)
     gui.text(2,40,string.format("EVs:%6d%6d%6d%6d%6d", Readbytes(address + 0xB,2), Readbytes(address + 0xD,2), Readbytes(address + 0xF,2), Readbytes(address + 0x11,2), Readbytes(address + 0x13,2)))
 end
 
-
 function Readbytes(address,n)
     local data = 0
     for i = 0,n-1 do

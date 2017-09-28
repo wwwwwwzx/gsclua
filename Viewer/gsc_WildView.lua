@@ -30,7 +30,6 @@ elseif version == 0x55 or version == 0x58 then
 else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
-    
 end
 
 function ShowPKM(address)
