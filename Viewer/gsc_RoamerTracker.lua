@@ -37,13 +37,14 @@ if beasts_addr == 0xffff then
     print("Script stopped")
 end
 
+defaultfont= {r = 0xFF, g = 0xFF, b = 0xFF, a = 0x90};
 function shiny(atkdef,spespc)
     if spespc == 0xAA then
         if atkdef == 0x2A or atkdef == 0x3A or atkdef == 0x6A or atkdef == 0x7A or atkdef == 0xAA or atkdef == 0xBA or atkdef == 0xEA or atkdef == 0xFA then
-            return "Shiny!!"
+            return {r = 0x0, g = 0x0, b = 0xFF, a = 0x70}
         end
     end
-    return ""
+    return defaultfont
 end
 
 -- species, lv ,location ,location, HP, DV1, DV2
@@ -57,20 +58,19 @@ function parsebeast(address,idx)
         local def = atkdef%16
         local spe = math.floor(spespc/16)
         local spc = spespc%16
-        gui.text(2, pos , beastsname[species - 242].."\tLocation "..memory.readbyte(address + 0x2)..memory.readbyte(address + 0x3))
+        color = shiny(atkdef,spespc)
+        gui.text(2, pos , beastsname[species - 242].."\tLocation "..memory.readbyte(address + 0x2)..memory.readbyte(address + 0x3)..string.format("\tCurrent HP: %d ", HP), color)
         pos = pos + 10
         if HP == 0 then
-            gui.text(2, pos,"Never Encounter")
+            gui.text(2, pos,"Never Encounter", defaultfont)
             pos = pos + 10
             return
         end
         local hp = atk % 2 * 8 + def % 2 * 4 + spe % 2 * 2 + spc % 2
-        gui.text(2, pos, string.format("Current HP: %d ", HP)..shiny(atkdef,spespc))
-        pos = pos + 10
-        gui.text(2, pos, string.format("IVs: HP:%2d Atk:%2d Def:%2d Spe:%2d Spc:%2d", hp, atk, def, spe, spc ))
+        gui.text(2, pos, string.format("IVs: HP:%2d Atk:%2d Def:%2d Spe:%2d Spc:%2d", hp, atk, def, spe, spc ),color)
         pos = pos + 10
     else 
-        gui.text(2, pos, beastsname[idx + 1].."\tNot Avaliable")
+        gui.text(2, pos, beastsname[idx + 1].."\tNot Avaliable", defaultfont)
         pos = pos + 10
     end
 end

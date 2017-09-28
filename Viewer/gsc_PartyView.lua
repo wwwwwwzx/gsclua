@@ -61,6 +61,7 @@ function parsePKM(address)
     print(string.format("EVs:\t%d\t%d\t%d\t%d\t%d", Readbytes(address + 0xB,2), Readbytes(address + 0xD,2), Readbytes(address + 0xF,2), Readbytes(address + 0x11,2), Readbytes(address + 0x13,2)))
 end
 
+defaultfont = {r = 0xFF, g = 0xFF, b = 0xFF, a = 0x90};
 function ShowPKM(address)
     local exp = Readbytes(address + 0x8, 3)
     local atkdef = memory.readbyte(address + 0x15)
@@ -70,11 +71,11 @@ function ShowPKM(address)
     local spe = math.floor(spespc/16)
     local spc = spespc%16
     local hp = atk % 2 * 8 + def % 2 * 4 + spe % 2 * 2 + spc % 2
-    gui.text(2,0,string.format("Species: %3d\tNature:\t", memory.readbyte(address))..naturestr[exp % 25 + 1].."\t"..shiny(atkdef,spespc))
-    gui.text(2,10,string.format("Exp: %d\tFriendShip: %d",exp,memory.readbyte(address + 0x1b)))
-    gui.text(2,20,string.format("        HP   Atk   Def   Spe   Spc"))
-    gui.text(2,30,string.format("IVs:%6d%6d%6d%6d%6d", hp, atk, def, spe, spc ))
-    gui.text(2,40,string.format("EVs:%6d%6d%6d%6d%6d", Readbytes(address + 0xB,2), Readbytes(address + 0xD,2), Readbytes(address + 0xF,2), Readbytes(address + 0x11,2), Readbytes(address + 0x13,2)))
+    gui.text(2,0,string.format("Species: %3d\tNature:\t", memory.readbyte(address))..naturestr[exp % 25 + 1].."\t"..shiny(atkdef,spespc),defaultfont)
+    gui.text(2,10,string.format("Exp: %d\tFriendShip: %d",exp,memory.readbyte(address + 0x1b)),defaultfont)
+    gui.text(2,20,string.format("        HP   Atk   Def   Spe   Spc"),defaultfont)
+    gui.text(2,30,string.format("IVs:%6d%6d%6d%6d%6d", hp, atk, def, spe, spc ),defaultfont)
+    gui.text(2,40,string.format("EVs:%6d%6d%6d%6d%6d", Readbytes(address + 0xB,2), Readbytes(address + 0xD,2), Readbytes(address + 0xF,2), Readbytes(address + 0x11,2), Readbytes(address + 0x13,2)),defaultfont)
 end
 
 function Readbytes(address,n)
