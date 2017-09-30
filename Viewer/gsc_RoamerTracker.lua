@@ -1,4 +1,5 @@
 
+
 beastsname = {"Raikou","Entei","Suicune"}
 pos = 0
 
@@ -29,7 +30,6 @@ elseif version == 0x55 or version == 0x58 then
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
         beasts_addr = 0xde17
-        return
     end
 end
 if beasts_addr == 0xffff then

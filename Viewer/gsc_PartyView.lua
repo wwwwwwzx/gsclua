@@ -36,7 +36,6 @@ elseif version == 0x55 or version == 0x58 then
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
         base_address = 0xdb1f
-        return
 	end
 else
     print(string.format("Unknown version, code: %4x", version))

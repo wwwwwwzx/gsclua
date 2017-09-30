@@ -40,6 +40,7 @@ Location code for legendary beasts:
 
 # Credit
 - zep715 for original code
-- Real96 for better region/version checks and address finding
-- RichardPaulAstley for supporting and address finding
+- Real96 for better region/version checks and addresses finding
+- /u/Koroze23 for addresses finding and korean bots testing
+- RichardPaulAstley for supporting and addresses finding
 - Sipanale for legendary beasts hunting scripts
