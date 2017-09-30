@@ -25,6 +25,9 @@ elseif version == 0x55 or version == 0x58 then
 	elseif region == 0x4A then
 		print("JPN Gold/Silver detected")
 		eggdv_addr = 0xdc51
+	elseif region == 0x4B then
+		print("KOR Gold/Silver detected")
+		eggdv_addr = 0xddd8
 	end
 else
     print(string.format("Unknown version, code: %4x", version))
@@ -44,7 +47,7 @@ end
 state = savestate.create()
 while true do
     savestate.save(state)
-    for i = 1, 80 do
+    for i = 1, 105 do
         joypad.set(1, {A=true})
         emu.frameadvance()
     end
