@@ -11,32 +11,31 @@ local enemy_addr
 local version = memory.readbyte(0x141)
 local region = memory.readbyte(0x142)
 if version == 0x54 then
+    catch_flag = 0xc10a
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
         print("EUR Crystal detected")
         enemy_addr = 0xd20c
-        catch_flag = 0xc10a
     elseif region == 0x45 then
         print("USA Crystal detected")
         enemy_addr = 0xd20c
-        catch_flag = 0xc10a
     elseif region == 0x4A then
         print("JPN Crystal detected")
         enemy_addr = 0xd23d
-        catch_flag = 0xc10a
     end
 elseif version == 0x55 or version == 0x58 then
+    catch_flag = 0xc00a
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
         print("EUR Gold/Silver detected")
         enemy_addr = 0xd0f5
-        catch_flag = 0xc00a
     elseif region == 0x45 then
         print("USA Gold/Silver detected")
         enemy_addr = 0xd0f5
-        catch_flag = 0xc00a
     elseif region == 0x4A then
         print("JPN Gold/Silver detected")
         enemy_addr = 0xd0e7
-        catch_flag = 0xc00a
+    elseif region == 0x4B then
+        print("KOR Gold/Silver detected")
+        enemy_addr = 0xd1b2
     end
 else
     print(string.format("Unknown version, code: %4x", version))

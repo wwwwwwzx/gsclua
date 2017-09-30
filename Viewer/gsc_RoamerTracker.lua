@@ -8,13 +8,13 @@ local region = memory.readbyte(0x142)
 if version == 0x54 then
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
         print("EUR Crystal detected")
-        beasts_addr = 0xffff
+        beasts_addr = 0xdfcf
     elseif region == 0x45 then
         print("USA Crystal detected")
-        beasts_addr = 0xffff
+        beasts_addr = 0xdfcf
     elseif region == 0x4A then
         print("JPN Crystal detected")
-        beasts_addr = 0xffff
+        beasts_addr = 0xdf45
     end
 elseif version == 0x55 or version == 0x58 then
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
@@ -25,10 +25,10 @@ elseif version == 0x55 or version == 0x58 then
         beasts_addr = 0xdd1a
     elseif region == 0x4A then
         print("JPN Gold/Silver detected")
-        beasts_addr = 0xffff
+        beasts_addr = 0xdc90
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
-        beasts_addr = 0xffff
+        beasts_addr = 0xde17
         return
     end
 end

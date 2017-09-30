@@ -24,7 +24,7 @@ elseif version == 0x55 or version == 0x58 then
         enemy_addr = 0xd0e7
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
-        print("Not implemented yet. Script stopped")
+        enemy_addr = 0xd1b2
         return
     end
 else
