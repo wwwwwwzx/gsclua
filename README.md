@@ -41,5 +41,6 @@ Location code for legendary beasts:
 # Credit
 - zep715 for original code
 - Real96 for better region/version checks and address finding
+- /u/Koroze23 for address finding and korean bots testing
 - RichardPaulAstley for supporting and address finding
 - Sipanale for legendary beasts hunting scripts
