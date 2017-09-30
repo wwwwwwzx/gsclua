@@ -25,7 +25,6 @@ elseif version == 0x55 or version == 0x58 then
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
         enemy_addr = 0xd1b2
-        return
     end
 else
     print(string.format("Unknown version, code: %4x", version))
