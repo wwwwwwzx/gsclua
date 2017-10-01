@@ -15,10 +15,10 @@ Thanks @Sipanale for adding this script.
 - Modified wild script allowing for capture of legendary beasts on route 38. Script pauses on shiny encounter (toggle-able) and then automatically captures the beast.
 
 - Location between Ecruteak City and Route 38 to start:  
-![](https://user-images.githubusercontent.com/24725521/30697180-0ef1349c-9eac-11e7-98d5-5ae7feff0de8.png)
+  ![](https://user-images.githubusercontent.com/24725521/30697180-0ef1349c-9eac-11e7-98d5-5ae7feff0de8.png)
 
 - Video demo:
-https://www.youtube.com/watch?v=jFTGqBfL7aE
+  https://www.youtube.com/watch?v=jFTGqBfL7aE
 
 ## Wild
 - Edit the script for desired species in dex number, -1 for all possible species
@@ -36,7 +36,7 @@ https://www.youtube.com/watch?v=jFTGqBfL7aE
 
 # Viewer
 Location code for legendary beasts:
-![](https://i.imgur.com/66PI2ui.png)
+![](Viewer/Location%20Code.png)
 
 # Credit
 - zep715 for original code

@@ -1,9 +1,8 @@
 
-
 beastsname = {"Raikou","Entei","Suicune"}
 pos = 0
 
-local beasts_addr = 0xffff
+local beasts_addr
 local version = memory.readbyte(0x141)
 local region = memory.readbyte(0x142)
 if version == 0x54 then
@@ -31,8 +30,7 @@ elseif version == 0x55 or version == 0x58 then
         print("KOR Gold/Silver detected")
         beasts_addr = 0xde17
     end
-end
-if beasts_addr == 0xffff then
+else
     print(string.format("Unknown version, code: %4x", version))
     print("Script stopped")
 end
@@ -59,7 +57,7 @@ function parsebeast(address,idx)
         local spe = math.floor(spespc/16)
         local spc = spespc%16
         color = shiny(atkdef,spespc)
-        gui.text(2, pos , beastsname[species - 242].."\tLocation "..memory.readbyte(address + 0x2)..memory.readbyte(address + 0x3)..string.format("\tCurrent HP: %d ", HP), color)
+        gui.text(2, pos , beastsname[species - 242].."\tLocation "..string.format("%02X%02X",memory.readbyte(address + 0x2),memory.readbyte(address + 0x3))..string.format("\tCurrent HP: %d ", HP), color)
         pos = pos + 10
         if HP == 0 then
             gui.text(2, pos,"Never Encounter", defaultfont)
