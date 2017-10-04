@@ -10,32 +10,47 @@ local region = memory.readbyte(0x142)
 if version == 0x54 then
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
         print("EUR Crystal detected")
+	daycare_flag = 0xdef5 
+       	daycare1_addr = 0xdf0c
+        daycare2_addr = 0xdf45
         daycare3_addr = 0xdf7b
     elseif region == 0x45 then
         print("USA Crystal detected")
+        daycare_flag = 0xdef5 
+       	daycare1_addr = 0xdf0c
+        daycare2_addr = 0xdf45
         daycare3_addr = 0xdf7b
     elseif region == 0x4A then
         print("JPN Crystal detected")
+	daycare_flag = 0xde89 
+       	daycare1_addr = 0xde96 
+        daycare2_addr = 0xdec5
         daycare3_addr = 0xdef1
     end
 elseif version == 0x55 or version == 0x58 then
     if region == 0x44 or region == 0x46 or region == 0x49 or region == 0x53 then
         print("EUR Gold/Silver detected")
-        daycare_flag = 0xdc40
-        daycare1_addr = 0xdc57
-        daycare2_addr = 0xdc90
-        daycare3_addr = 0xdcc6
+        daycare_flag = 0xdc40 
+       	daycare1_addr = 0xdc57
+        daycare2_addr = 0xdc90 
+        daycare3_addr = 0xdcc6 
     elseif region == 0x45 then
         print("USA Gold/Silver detected")
-        daycare_flag = 0xdc40
-        daycare1_addr = 0xdc57
-        daycare2_addr = 0xdc90
+        daycare_flag = 0xdc40 
+        daycare1_addr = 0xdc57 
+        daycare2_addr = 0xdc90 
         daycare3_addr = 0xdcc6
     elseif region == 0x4A then
         print("JPN Gold/Silver detected")
+	daycare_flag = 0xdbd4 
+        daycare1_addr = 0xdbe1
+        daycare2_addr = 0xdc10  
         daycare3_addr = 0xdc3c
     elseif region == 0x4B then
         print("KOR Gold/Silver detected")
+	daycare_flag = 0xdd3d 
+        daycare1_addr = 0xdd54
+        daycare2_addr = 0xdd8d 
         daycare3_addr = 0xddc3
     end
 else
