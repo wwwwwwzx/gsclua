@@ -1,5 +1,5 @@
 --Edit parameters in this section
-local desired_tid = 0 --TID you desired
+local desired_tid = {12345, 00666, 31415} --TIDs you desired
 --End of parameters
 
 local tid_addr
@@ -50,11 +50,13 @@ while true do
     end
     tid = reverseword(memory.readword(tid_addr))
     print(tid)
-    if tid == desired_tid then
-        print("TID found!")
-        return
-    else
-        savestate.load(state)
+    for tid_count = 1, table.getn(desired_tid) do
+	    if tid == desired_tid[tid_count] then
+	        print("TID found!")
+	        return
+	    else
+	        savestate.load(state)
+	    end
     end
     for i = 1, 2 do
         emu.frameadvance()
