@@ -54,10 +54,9 @@ while true do
 	    if tid == desired_tid[tid_count] then
 	        print("TID found!")
 	        return
-	    else
-	        savestate.load(state)
 	    end
     end
+    savestate.load(state)
     for i = 1, 2 do
         emu.frameadvance()
     end
