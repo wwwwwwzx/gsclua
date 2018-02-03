@@ -1,5 +1,6 @@
 --Edit parameters in this section
-local desired_species = 214 -- the desired pokemon dex number / -1 for all species/encounter slots
+local any_species = false -- check for all species or not
+local desired_species = {102,163} -- the desired pokemon dex numbers
 --End of parameters
 
 local atkdef
@@ -52,7 +53,7 @@ function shiny(atkdef,spespc)
     end
     return false
 end
- 
+
 local state = savestate.create()
 while true do
     savestate.save(state)
@@ -65,26 +66,37 @@ while true do
         savestate.load(state)
     else
         species = memory.readbyte(species_addr)
-        print(string.format("Species: %d", species))
-        if desired_species > 0 and desired_species ~= species then
-            savestate.load(state)
-        else
-            while memory.readbyte(dv_flag_addr) ~= 0x01 do
-                emu.frameadvance()
+        print(string.format("Encountered species: %d", species))
+        found_one = false
+        if not any_species then
+          for species_count = 1, table.getn(desired_species) do
+            if species == desired_species[species_count] then
+              found_one = true
+              -- print(string.format("Species: %d found", species))
+              break
             end
-        
-            atkdef = memory.readbyte(enemy_addr)
-            spespc = memory.readbyte(enemy_addr + 1)
-            print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
+          end
+        end
 
-            if shiny(atkdef, spespc) then
-                print("Shiny found!!")
-                savestate.save(state)
-                vba.pause()
-                break
-            else
-                savestate.load(state)
-            end
+        if any_species or found_one then
+          while memory.readbyte(dv_flag_addr) ~= 0x01 do
+            emu.frameadvance()
+          end
+
+          atkdef = memory.readbyte(enemy_addr)
+          spespc = memory.readbyte(enemy_addr + 1)
+          print(string.format("Atk: %d Def: %d Spe: %d Spc: %d", math.floor(atkdef/16), atkdef%16, math.floor(spespc/16), spespc%16))
+
+          if shiny(atkdef, spespc) then
+            print("Shiny found!!")
+            savestate.save(state)
+            vba.pause()
+            break
+          else
+            savestate.load(state)
+          end
+        else
+          savestate.load(state)
         end
     end
     emu.frameadvance()
