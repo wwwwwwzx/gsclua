@@ -308,7 +308,7 @@ function ShowPKM(address)
         gui.text(15,30,string.format("%d/%d Damage: %d", Readbytes(address + 0xA,2), Readbytes(address + 0xC,2),Readbytes(address + 0x4C,2)), color)
         gui.text(2,2, string.format("IVs: HP:%2d Atk:%2d Def:%2d Spe:%2d Spc:%2d", hp, atk, def, spe, spc), color)
     
-        gui.text (2,10, "Enemy Hold Item: "..items_table[item+1])
+        gui.text (2,10, "Enemy Hold Item: "..items_table[item])
     end
         
 end
